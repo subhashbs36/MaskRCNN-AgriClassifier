@@ -1,40 +1,134 @@
-# Paddy Field and Pomegranate Tree Classifier Using Mask-RCNN
+# Mask-RCNN Agricultural Classifier for Paddy Fields and Pomegranate Trees
 
-This project applies **Mask-RCNN** to classify and segment paddy fields and Bushfarm pomegranate trees with high accuracy. It features a user-friendly interface built using **PyQt5**, making it easy to visualize classification results and interact with the system.
+This project implements an advanced computer vision system using **Mask-RCNN** to accurately classify and segment paddy fields and pomegranate trees in agricultural imagery. The system features a sophisticated PyQt5-based graphical user interface for intuitive interaction and visualization of segmentation results.
 
-## Features
+![Sample Segmentation Result](processed_images/IMG_9.jpg)
 
-- **Mask-RCNN Classification**: Accurately classifies and segments paddy fields and pomegranate trees.
-- **Elegant PyQt5 Interface**: Provides a sleek and interactive UI for real-time classification results.
-- **Real-time Processing**: Quickly classifies input images for on-the-spot analysis.
+## Technical Overview
+
+The application leverages a custom-trained Mask-RCNN model to perform instance segmentation on agricultural imagery. The model identifies and segments two primary classes:
+
+- **Pomegranate Trees**: Detected and labeled with bounding boxes and pixel-level segmentation masks
   
+  ![Sample input image1](images\img44.jpg)
+
+- **Paddy Fields**: Accurately segmented with distinct color overlays
+
+![Sample input image2](images/G0051735.JPG)
+
+### Core Technologies
+
+- **Mask-RCNN Architecture**: Implemented using PyTorch for deep learning-based instance segmentation
+- **PyQt5 Framework**: Provides a responsive and interactive user interface
+- **OpenCV**: Used for image processing and visualization of segmentation masks
+- **Torch Vision**: Provides transformations and utilities for working with image data
+
+## System Architecture
+
+### Model Components
+
+- Pre-trained Mask-RCNN model fine-tuned on agricultural imagery
+- Custom weights stored in `mask_rcnn_tree_pady.pt`
+- COCO-style class definitions for agricultural objects
+
+### Processing Pipeline
+
+1. **Image Acquisition**: Load images from the specified directory
+2. **Pre-processing**: Convert images to tensor format and normalize
+3. **Inference**: Pass processed images through the Mask-RCNN model
+4. **Post-processing**: Apply confidence thresholding (default: 0.65) to filter predictions
+5. **Visualization**: Render segmentation masks and bounding boxes on the original image
+6. **Result Storage**: Save processed images with annotations to the output directory
+
 ## Installation
+
+### Prerequisites
+
+- Python 3.6+
+- PyTorch 1.7+
+- CUDA-capable GPU (recommended for faster inference)
+
+### Setup
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/paddy-pomegranate-classifier.git
+   git clone https://github.com/your-username/MaskRCNN-AgriClassifier.git
+   cd MaskRCNN-AgriClassifier
+   ```
 
 2. Install the required dependencies:
 
    ```bash
-    pip install -r requirements.txt
+   pip install -r requirements.txt
+   ```
 
-3. Run the application:
+3. Download the pre-trained model weights (if not included in the repository):
+   - Place `mask_rcnn_tree_pady.pt` in the project root directory
+
+4. Run the application:
 
    ```bash
-    python main.py
+   python main.py
+   ```
 
+## Usage Guide
 
-## How it Works
+### User Interface
 
-1. Input Image: Load an image into the system.
-2. Classification: Mask-RCNN processes the image, classifying the regions as either paddy fields or pomegranate trees.
-3. Visualization: The PyQt5 interface displays the results, highlighting the identified areas.
+The application provides an intuitive interface with the following features:
 
-## Future Improvements
+- **Image Loading**: Select input images or directories for processing
+- **Visualization Controls**: Zoom, pan, and navigate through processed images
+- **Batch Processing**: Process multiple images sequentially with progress tracking
+- **Result Inspection**: View segmentation masks, bounding boxes, and class labels
 
-1. Expand classification to other crop types.
-2. Integrate real-time video processing.
-3. Enhance the interface with more detailed feedback for each classification.
+### Processing Workflow
+
+1. Launch the application using `python main.py`
+2. Use the interface to select input images from the `images` directory
+3. Initiate processing by clicking the appropriate button
+4. View results with segmentation masks overlaid on the original images
+5. Processed images are automatically saved to the `processed_images` directory
+
+## Technical Implementation Details
+
+### Segmentation Algorithm
+
+The core segmentation functionality is implemented in the `tree_Segmentation` method, which:
+
+1. Loads the Mask-RCNN model from the specified weights file
+2. Transforms input images to the required tensor format
+3. Performs inference to generate masks, bounding boxes, and class predictions
+4. Applies a confidence threshold to filter predictions
+5. Renders the segmentation results with color-coded masks and labels
+
+### Model Configuration
+
+- **Confidence Threshold**: 0.65 (configurable)
+- **Classes**: Background, Tree (Pomegranate), Paddy
+- **Device**: Automatically selects GPU if available, falls back to CPU
+
+## Future Development
+
+1. **Model Improvements**:
+   - Expand the model to classify additional crop types and agricultural features
+   - Implement transfer learning for adaptation to new agricultural environments
+
+2. **Interface Enhancements**:
+   - Add statistical analysis of detected objects
+   - Implement real-time video processing capabilities
+   - Integrate with GIS systems for geospatial analysis
+
+3. **Performance Optimization**:
+   - Implement model quantization for faster inference
+   - Add batch processing optimizations for large datasets
+
+## Contributing
+
+Contributions to improve the classifier are welcome. Please feel free to submit pull requests or open issues to discuss potential enhancements.
+
+## License
+
+This project is licensed under the terms of the included LICENSE file.
 
