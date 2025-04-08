@@ -10,7 +10,7 @@ The application leverages a custom-trained Mask-RCNN model to perform instance s
 
 - **Pomegranate Trees**: Detected and labeled with bounding boxes and pixel-level segmentation masks
   
-  ![Sample input image1](images\img44.jpg)
+  ![Sample input image1](images/img44.jpg)
 
 - **Paddy Fields**: Accurately segmented with distinct color overlays
 
